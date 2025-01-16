@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    {% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }} ({{ message.tags }})
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0" style="background-color: rgba(232, 234, 249, 255); border-radius: 20px;">
+                <div class="card-header text-center py-4" style="background: linear-gradient(to right, rgba(194, 202, 243, 1), rgba(158, 173, 237, 1)); border-radius: 20px 20px 0 0; color: #011762;">
+                    <h3 class="mb-0">Contact Us</h3>
+                    <p class="small mt-2">We would love to hear from you!</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <!-- Full Name -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label" style="color: #011762;">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="e.g., Ahmed Khalid" value="{{ form_data.name|default:'' }}">
+                                {% if errors.name %}
+                                    <p class="text-danger small">{{ errors.name }}</p>
+                                {% endif %}
+                            </div>
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label for="email" class="form-label" style="color: #011762;">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="e.g., name@example.com" value="{{ form_data.email|default:'' }}">
+                                {% if errors.email %}
+                                    <p class="text-danger small">{{ errors.email }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Email Password -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="email_password" class="form-label" style="color: #011762;">
+                                    App Password
+                                    <span class="ms-2" data-bs-toggle="tooltip" title="Find this in your email account under 'Settings' > 'Security' > 'App Passwords'.">
+                                        <i class="fas fa-question-circle" style="color: #011762; cursor: pointer;"></i>
+                                    </span>
+                                </label>
+                                <input type="password" class="form-control" id="email_password" name="email_password" placeholder="Enter your app-specific password">
+                                {% if errors.email_password %}
+                                    <p class="text-danger small">{{ errors.email_password }}</p>
+                                {% endif %}
+                            </div>
+                            <!-- Subject -->
+                            <div class="col-md-6">
+                                <label for="subject" class="form-label" style="color: #011762;">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject" placeholder="e.g., How to Join?" value="{{ form_data.subject|default:'' }}">
+                                {% if errors.subject %}
+                                    <p class="text-danger small">{{ errors.subject }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Category -->
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="category" class="form-label" style="color: #011762;">Category</label>
+                                <select class="form-select" id="category" name="category">
+                                    <option value="" disabled {% if not form_data.category %}selected{% endif %}>Select a Category</option>
+                                    <option value="Inquiry" {% if form_data.category == 'Inquiry' %}selected{% endif %}>Inquiry</option>
+                                    <option value="Support" {% if form_data.category == 'Support' %}selected{% endif %}>Support</option>
+                                    <option value="Feedback" {% if form_data.category == 'Feedback' %}selected{% endif %}>Feedback</option>
+                                </select>
+                                {% if errors.category %}
+                                    <p class="text-danger small">{{ errors.category }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Message -->
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="message" class="form-label" style="color: #011762;">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Type your message here...">{{ form_data.message|default:'' }}</textarea>
+                                {% if errors.message %}
+                                    <p class="text-danger small">{{ errors.message }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn py-2" style="background-color: rgba(158, 173, 237, 1); color: #011762; font-weight: bold; border: none;">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+
